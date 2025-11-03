@@ -32,7 +32,7 @@ feature_names = [
     "AFA",   
     "FPA",   
     "TFA",     
-    "H/Q",   
+    "HQ_ratio",   
 ]
 
 # Streamlit 用户界面
@@ -54,11 +54,11 @@ FPA = st.number_input("足外展:", min_value=0, max_value=100, value=13)
 
 TFA = st.number_input("躯干前倾：", min_value=0, max_value=100, value=38)
 
-H/Q = st.number_input("腘绳肌/股四头肌：", min_value=0, max_value=100, value=0.71)
+HQ_ratio = st.number_input("腘绳肌/股四头肌：", min_value=0, max_value=100, value=0.71)
 
 feature_values = [
     HFA, HAA, KFA, ITR, KAA, AFA, FPA,
-    TFA, H/Q
+    TFA, HQ_ratio
 ]  # 将用户输入的特征值存入列表
 features = np.array([feature_values])  # 转为 NumPy 数组，适用于模型输入
 
