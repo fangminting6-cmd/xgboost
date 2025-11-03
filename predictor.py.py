@@ -64,38 +64,38 @@ features = np.array([feature_values])  # 转为 NumPy 数组，适用于模型�
 
 # 当用户点击 “Predict” 按钮时执行
 if st.button("Predict"):
-   # 预测 ACL 数值（回归）
-predicted_acl = float(np.ravel(model.predict(features))[0])  # -> 标量
+    # 1) 预测 ACL 数值（回归）
+    predicted_acl = float(np.asarray(model.predict(features)).ravel()[0])  # 标量
+    st.write(f"**Predicted ACL (N):** {predicted_acl:.1f}")
 
-# 展示结果（按你的单位改：如 N、N/kg、BW 等）
-st.write(f"**Predicted ACL value:** {predicted_acl:.3f}")
-
-    LOW_TH, HIGH_TH = 2.45, 2.45   # ×BW 阈值：<2.0 低，2.0–3.0 中，≥3.0 高（示例，可修改）
+    # 3) 风险分级与建议（示例阈值，可按你的研究调整）
+    LOW_TH, HIGH_TH = 2.45, 2.45   # <2.00 低；2.00–2.45 中；≥2.45 高
     if acl_bw >= HIGH_TH:
         risk_label = "High risk"
         advice = (
-            "- Increase knee flexion at initial contact (≥30°) and avoid dynamic valgus.\n"
-            "- Reduce excessive tibial internal rotation & toe-in landing; keep FPA ~10–20°.\n"
-            "- Strengthen hamstrings & gluteals; improve H/Q co-activation in deceleration.\n"
-            "- Consider landing technique coaching, neuromuscular training, and workload control.\n"
-            "- If symptoms/instability present, consult a sports medicine professional."
+            "- Increase knee flexion at initial contact (≥30°); avoid dynamic valgus.\n"
+            "- Reduce excessive tibial internal rotation / toe-in; keep FPA ~10–20°.\n"
+            "- Strengthen hamstrings & gluteals; improve H/Q co-activation.\n"
+            "- Technique coaching, neuromuscular training, and workload control.\n"
+            "- If symptoms/instability present, consult sports medicine."
         )
     elif acl_bw >= LOW_TH:
         risk_label = "Moderate risk"
         advice = (
-            "- Monitor technique: target moderate knee flexion and neutral frontal/transverse alignment.\n"
-            "- Maintain hamstring strength/endurance; emphasize proximal (hip) control.\n"
-            "- Implement landing drills and progressive plyometrics; track fatigue."
+            "- Target moderate knee flexion and neutral alignment.\n"
+            "- Maintain hamstring strength/endurance; emphasize hip control.\n"
+            "- Use landing drills & progressive plyometrics; monitor fatigue."
         )
     else:
         risk_label = "Low risk"
         advice = (
-            "- Keep current technique; continue strength and neuromuscular training.\n"
-            "- Periodically reassess under fatigue or task complexity to ensure robustness."
+            "- Maintain current technique & neuromuscular training.\n"
+            "- Reassess under fatigue or higher task complexity."
         )
 
     st.markdown(f"**Risk level:** {risk_label}")
     st.markdown("**Recommendations:**\n" + advice)
+
 
     # SHAP 解释
 st.subheader("SHAP Force Plot Explanation")
