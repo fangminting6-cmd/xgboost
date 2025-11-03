@@ -17,7 +17,7 @@ import shap
 import matplotlib.pyplot as plt
 
 # 加载训练好的模型
-model = joblib.load('final_XGJ_model_rawbytes.pkl')
+model = joblib.load('final_XGJ_model.pkl')
 
 # 从 X_test.csv 文件加载测试数据，用于 LIME 解释器
 X_test = pd.read_csv('X_test.csv')
